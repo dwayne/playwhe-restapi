@@ -1,4 +1,5 @@
 require 'data_mapper'
+require 'dm-ar-finders'
 
 class Mark
   include DataMapper::Resource
