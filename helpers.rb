@@ -1,15 +1,8 @@
-require 'sinatra'
 require 'json'
 
 require './models'
 
-unless ENV['PLAYWHE_DATABASE_URL']
-  abort("missing env vars: please set PLAYWHE_DATABASE_URL")
-end
-
-DataMapper.setup(:default, "sqlite://#{ENV['PLAYWHE_DATABASE_URL']}")
-
-helpers do
+module PlayWheHelper
   def results
     validate_and_parse!
 
@@ -104,20 +97,4 @@ helpers do
   def halt_with_invalid_param(name)
     halt 400, {message: "Invalid parameter, #{name}"}.to_json
   end
-end
-
-before do
-  content_type :json
-end
-
-get '/marks' do
-  Mark.all.to_json
-end
-
-get %r{^/mark/([1-9]|[1-2][0-9]|3[0-6])$} do |n|
-  Mark.get(n).to_json
-end
-
-get '/results' do
-  results.to_json
 end
