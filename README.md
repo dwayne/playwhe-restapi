@@ -2,20 +2,22 @@
 
 A Sinatra web application that provides a RESTful web API to a database of past and present PlayWhe results.
 
-**N.B. The database is not provided. Check [here](https://github.com/dwayne/playwhe) or [here](https://bitbucket.org/dwaynecrooks/playwhe).**
+A database of past PlayWhe results is provided (see the `data` directory) for testing purposes.
 
 ## Quick Start
 
     $ git clone https://dwaynecrooks@bitbucket.org/dwaynecrooks/playwhe-restapi.git
 
     $ cd playwhe-restapi
-    $ rvm use 1.9.3-p194@playwhe-restapi --create
     $ bundle install
 
-    $ echo "PLAYWHE_DATABASE_URL=/path/to/playwhe/database" >> .env
-    $ foreman start
+    $ rake thin:start
 
 In another terminal you can use `curl` to query the service at `http://localhost:5000`.
+
+When you are ready to stop the server, execute
+
+    $ rake thin:stop
 
 ## Usage
 
