@@ -1,0 +1,10 @@
+# Server options:
+port: 27017
+
+# Adapter options:
+environment: production
+
+# Daemon options:
+daemonize: true
+user: dwaynecrooks
+group: dwaynecrooks

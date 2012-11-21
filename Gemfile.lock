@@ -59,6 +59,7 @@ GEM
     json (1.7.5)
     json_pure (1.7.5)
     multi_json (1.3.7)
+    net-ssh (2.6.1)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -82,5 +83,6 @@ DEPENDENCIES
   dm-ar-finders
   dm-sqlite-adapter
   json
+  net-ssh
   sinatra
   thin

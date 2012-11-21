@@ -1,0 +1,6 @@
+.excludes
+.git
+.gitignore
+data/
+log/
+tmp/
