@@ -62,3 +62,13 @@ You can also query the results based on the draw number, the period or the numbe
 Finally, feel free to mix and match paramters. The request below returns the 2nd set of 5 results for which the number 13 played after lunch for the year 2008.
 
     $ curl http://localhost:5000/results?limit=5&offset=5&year=2008&period=2&number=13
+
+## TODO
+
+- App monitoring on WebFaction (check out [god](http://godrb.com/))
+- Authentication
+- Throttle requests
+
+## Credits
+
+Developed by [Dwayne R. Crooks](http://dwaynecrooks.com/).
