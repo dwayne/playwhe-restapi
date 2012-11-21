@@ -32,14 +32,14 @@ module PlayWheHelper
 
   def validate_and_parse!
     if params[:year]
-      halt_with_invalid_param(:year) unless params[:year] =~ /^([1-9]\d{3})$/
+      pass unless params[:year] =~ /^([1-9]\d{3})$/
     end
 
     if params[:month]
       if params[:month] =~ /^([1-9]|10|11|12)$/
         params[:month] = sprintf("%02d", params[:month])
       else
-        halt_with_invalid_param(:month)
+        pass
       end
     end
 
@@ -47,20 +47,20 @@ module PlayWheHelper
       if params[:day] =~ /^([1-9]|[1-2][0-9]|30|31)$/
         params[:day] = sprintf("%02d", params[:day])
       else
-        halt_with_invalid_param(:day)
+        pass
       end
     end
 
     if params[:draw]
-      halt_with_invalid_param(:draw) unless params[:draw] =~ /^([1-9]\d*)$/
+      pass unless params[:draw] =~ /^([1-9]\d*)$/
     end
 
     if params[:period]
-      halt_with_invalid_param(:period) unless params[:period] =~ /^(1|2|3)$/
+      pass unless params[:period] =~ /^(1|2|3)$/
     end
 
     if params[:number]
-      halt_with_invalid_param(:number) unless params[:number] =~ /^([1-9]|[1-2][0-9]|3[0-6])$/
+      pass unless params[:number] =~ /^([1-9]|[1-2][0-9]|3[0-6])$/
     end
 
     if params[:limit]

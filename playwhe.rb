@@ -29,6 +29,14 @@ class PlayWhe < Sinatra::Base
     results.to_json
   end
 
+  not_found do
+    {message: 'Not found'}.to_json
+  end
+
+  error do
+    {message: env['sinatra.error'].message}.to_json
+  end
+
   # start the server if executed directly
   run! if app_file == $0
 end
