@@ -55,14 +55,18 @@ GEM
     do_sqlite3 (0.10.10)
       data_objects (= 0.10.10)
     eventmachine (1.0.0)
+    faraday (0.8.4)
+      multipart-post (~> 1.1)
     fastercsv (1.5.5)
     json (1.7.5)
     json_pure (1.7.5)
     multi_json (1.3.7)
+    multipart-post (1.1.5)
     net-ssh (2.6.1)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
+    simple_oauth (0.2.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -73,6 +77,10 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     tilt (1.3.3)
+    twitter (4.4.2)
+      faraday (~> 0.8)
+      multi_json (~> 1.3)
+      simple_oauth (~> 0.2)
     uuidtools (2.1.3)
 
 PLATFORMS
@@ -86,3 +94,4 @@ DEPENDENCIES
   net-ssh
   sinatra
   thin
+  twitter

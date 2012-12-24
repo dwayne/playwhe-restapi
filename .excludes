@@ -1,6 +1,7 @@
 .excludes
 .git
 .gitignore
+.playwhe-tweet
 data/
 log/
 tmp/
