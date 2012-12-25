@@ -63,6 +63,42 @@ Finally, feel free to mix and match paramters. The request below returns the 2nd
 
     $ curl http://localhost:5000/results?limit=5&offset=5&year=2008&period=2&number=13
 
+## Configuring `playwhe-tweet.sh`
+
+### Step 1
+
+Copy `playwhe-tweet-example.sh` to `playwhe-tweet.sh` and make it executable by the user.
+
+    $ cp playwhe-tweet-example.sh playwhe-tweet.sh
+    $ chmod u+x playwhe-tweet.sh
+
+### Step 2
+
+Open `playwhe-tweet.sh` and setup the following environment variables:
+
+- `PLAYWHE_DATABASE_URL` the path to the Play Whe database
+- `PLAYWHE_TWEETRC_PATH` the path to `.playwhe-tweetrc`
+- `TWITTER_CONSUMER_KEY`
+- `TWITTER_CONSUMER_SECRET`
+- `TWITTER_OAUTH_TOKEN`
+- `TWITTER_OAUTH_SECRET`
+
+**N.B.** See [playwhe-tweet](https://dev.twitter.com/apps/3841469/show) for the Twitter credentials.
+
+### Step 3
+
+Add a cron job.
+
+    $ export EDITOR=nano; crontab -e
+
+And then, edit it to have `playwhe-tweet.sh` run every 5 minutes.
+
+    */5 * * * * /path/to/playwhe-tweet.sh > /dev/null 2>> /path/to/playwhe-tweet.log
+
+### Step 4
+
+There is no step 4. The script is now setup to automatically tweet the latest Play Whe results.
+
 ## TODO
 
 - App monitoring on WebFaction (check out [god](http://godrb.com/))

@@ -2,6 +2,7 @@
 .git
 .gitignore
 .playwhe-tweet
+playwhe-tweet.sh
 data/
 log/
 tmp/

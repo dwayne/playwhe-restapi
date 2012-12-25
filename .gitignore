@@ -1,5 +1,7 @@
 # Ignore the playwhe-tweet config file
 .playwhe-tweetrc
 
+playwhe-tweet.sh
+
 log/
 tmp/
