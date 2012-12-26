@@ -64,6 +64,8 @@ GEM
     multipart-post (1.1.5)
     net-ssh (2.6.1)
     rack (1.4.1)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-protection (1.2.0)
       rack
     simple_oauth (0.2.0)
@@ -92,6 +94,7 @@ DEPENDENCIES
   dm-sqlite-adapter
   json
   net-ssh
+  rack-contrib
   sinatra
   thin
   twitter

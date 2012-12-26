@@ -3,6 +3,8 @@ source :rubygems
 gem 'sinatra'
 gem 'thin'
 
+gem 'rack-contrib'
+
 gem 'json'
 
 gem 'data_mapper'

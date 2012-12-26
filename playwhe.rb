@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'rack/contrib/jsonp'
 require 'json'
 
 require './helpers'
@@ -36,6 +37,8 @@ class PlayWhe < Sinatra::Base
   error do
     {message: env['sinatra.error'].message}.to_json
   end
+
+  use Rack::JSONP
 
   # start the server if executed directly
   run! if app_file == $0
