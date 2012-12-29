@@ -29,7 +29,7 @@ if File.exists? ENV['PLAYWHE_TWEETRC_PATH']
 
   File.open(ENV['PLAYWHE_TWEETRC_PATH'], 'r') do |f|
     draw = f.gets.to_i
-    results = Result.all(:draw.gt => draw, :order => [ :draw.desc ])
+    results = Result.all(:draw.gt => draw, :order => [ :draw.asc ])
   end
 else
   results = [ Result.last ]
