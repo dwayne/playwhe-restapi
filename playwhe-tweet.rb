@@ -4,7 +4,7 @@ require 'date'
 require 'twitter'
 require './models'
 
-ENV['PLAYWHE_RESULTS_HASHTAG'] ||= '#playwheresults'
+ENV['PLAYWHE_RESULTS_HASHTAG'] ||= '#playwhe'
 ENV['PLAYWHE_WEBSITE_URL']     ||= 'http://playwhesmarter.com/'
 
 unless ENV['PLAYWHE_DATABASE_URL'] and ENV['PLAYWHE_TWEETRC_PATH']
