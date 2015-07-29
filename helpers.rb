@@ -56,7 +56,11 @@ module PlayWheHelper
     end
 
     if params[:period]
-      pass unless params[:period] =~ /^(1|2|3)$/
+      if params[:period] =~ /^(EM|AM|AN|PM)$/i
+        params[:period] = params[:period].upcase
+      else
+        pass
+      end
     end
 
     if params[:number]

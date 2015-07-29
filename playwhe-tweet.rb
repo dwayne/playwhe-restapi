@@ -37,16 +37,17 @@ end
 
 unless results.empty?
   File.open(ENV['PLAYWHE_TWEETRC_PATH'], 'w') do |f|
-    f.puts results[0].draw.to_s
+    f.puts results.last.draw.to_s
   end
 
   results.each do |result|
     date = result.date.strftime('%b %-d, %Y')
 
     time_of_day = {
-      1 => 'in the Morning (10:30 AM)',
-      2 => 'at Midday (1:00 PM)',
-      3 => 'in the Evening (6:30 PM)'
+      'EM' => 'in the Morning (10:30 AM)',
+      'AM' => 'at Midday (1:00 PM)',
+      'AN' => 'in the Afternoon (4:00 PM)',
+      'PM' => 'in the Evening (6:30 PM)'
     }[result.period]
 
     number = result.number

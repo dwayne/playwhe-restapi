@@ -4,6 +4,11 @@ A Sinatra web application that provides a RESTful web API to a database of past 
 
 A database of past PlayWhe results is provided (see the `data` directory) for testing purposes.
 
+## Prerequisites
+
+1. Ruby 1.9.3
+2. This project uses [RVM](https://rvm.io/) but is not required. If you use [rbenv](https://github.com/sstephenson/rbenv) for example, then ensure that the local/global version for Ruby is set to 1.9.3.
+
 ## Quick Start
 
     $ git clone https://dwaynecrooks@bitbucket.org/dwaynecrooks/playwhe-restapi.git

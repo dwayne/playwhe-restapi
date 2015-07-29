@@ -13,7 +13,7 @@ class Result
 
   property :draw,   Serial
   property :date,   Date,    required: true
-  property :period, Integer, required: true
+  property :period, String,  required: true
   property :number, Integer, required: true
 end
 
