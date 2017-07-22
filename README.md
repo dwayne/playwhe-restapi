@@ -7,11 +7,11 @@ A database of past PlayWhe results is provided (see the `data` directory) for te
 ## Prerequisites
 
 1. Ruby 1.9.3
-2. This project uses [RVM](https://rvm.io/) but is not required. If you use [rbenv](https://github.com/sstephenson/rbenv) for example, then ensure that the local/global version for Ruby is set to 1.9.3.
+2. [rbenv](https://github.com/sstephenson/rbenv).
 
 ## Quick Start
 
-    $ git clone https://dwaynecrooks@bitbucket.org/dwaynecrooks/playwhe-restapi.git
+    $ git clone git@bitbucket.org:dwaynecrooks/playwhe-restapi.git
 
     $ cd playwhe-restapi
     $ bundle install
