@@ -53,11 +53,11 @@ task :deploy, :password do |t, args|
 
   # http://linux.die.net/man/1/rsync
   # Push: rsync [OPTION...] SRC... [USER@]HOST:DEST
-  success =  system "rsync --exclude-from .excludes -rltvz -e ssh . #{user}@#{user}.webfactional.com:#{app_dir}"
+  success =  system "rsync --exclude-from .excludes -rltvz -e ssh . #{user}@web534.webfaction.com:#{app_dir}"
 
   if success
     require 'net/ssh'
-    Net::SSH.start("#{user}.webfactional.com", user, :password => args[:password]) do |ssh|
+    Net::SSH.start('web534.webfaction.com', user, :password => args[:password]) do |ssh|
       commands = [
         'export RACK_ENV=production',
         "export PLAYWHE_DATABASE_URL=/home/#{user}/.playwhe/playwhe.db",
