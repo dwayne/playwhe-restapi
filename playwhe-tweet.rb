@@ -5,7 +5,7 @@ require 'twitter'
 require './models'
 
 ENV['PLAYWHE_RESULTS_HASHTAG'] ||= '#playwhe'
-ENV['PLAYWHE_WEBSITE_URL']     ||= 'http://playwhesmarter.com/'
+ENV['PLAYWHE_WEBSITE_URL']     ||= 'http://www.playwhesmarter.com/'
 
 unless ENV['PLAYWHE_DATABASE_URL'] and ENV['PLAYWHE_TWEETRC_PATH']
   abort('missing env vars: please set PLAYWHE_DATABASE_URL and PLAYWHE_TWEETRC_PATH')

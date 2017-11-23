@@ -1,7 +1,9 @@
 .excludes
 .git
 .gitignore
-.playwhe-tweet
+.playwhe-facebook-postrc
+.playwhe-tweetrc
+playwhe-facebook-post.sh
 playwhe-tweet.sh
 data/
 log/

@@ -1,8 +1,8 @@
-# PlayWhe RESTful web API
+# About
 
-A Sinatra web application that provides a RESTful web API to a database of past and present PlayWhe results.
+A Sinatra web application that provides a RESTful API to a database of PlayWhe results.
 
-A database of past PlayWhe results is provided (see the `data` directory) for testing purposes.
+**N.B.** *A database of PlayWhe results is provided (see the `data` directory) for testing purposes.*
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ A database of past PlayWhe results is provided (see the `data` directory) for te
 
 ## Quick Start
 
-    $ git clone git@bitbucket.org:dwaynecrooks/playwhe-restapi.git
+    $ git clone git@github.com:dwayne/playwhe-restapi.git
 
     $ cd playwhe-restapi
     $ bundle install
@@ -64,7 +64,7 @@ You can also query the results based on the draw number, the period or the numbe
     $ curl http://localhost:5000/results?period=2
     $ curl http://localhost:5000/results?number=23
 
-Finally, feel free to mix and match paramters. The request below returns the 2nd set of 5 results for which the number 13 played after lunch for the year 2008.
+Finally, feel free to mix and match parameters. The request below returns the 2nd set of 5 results for which the number 13 played after lunch for the year 2008.
 
     $ curl http://localhost:5000/results?limit=5&offset=5&year=2008&period=2&number=13
 
@@ -88,7 +88,7 @@ Open `playwhe-tweet.sh` and setup the following environment variables:
 - `TWITTER_OAUTH_TOKEN`
 - `TWITTER_OAUTH_SECRET`
 
-**N.B.** See [playwhe-tweet](https://dev.twitter.com/apps/3841469/show) for the Twitter credentials.
+**N.B.** *See [playwhe-tweet](https://dev.twitter.com/apps/3841469/show) for the Twitter credentials.*
 
 ### Step 3
 
@@ -103,6 +103,37 @@ And then, edit it to have `playwhe-tweet.sh` run every 5 minutes.
 ### Step 4
 
 There is no step 4. The script is now setup to automatically tweet the latest Play Whe results.
+
+## Configuring `playwhe-facebook-post.sh`
+
+### Step 1
+
+Copy `playwhe-facebook-post-example.sh` to `playwhe-facebook-post.sh` and make it executable by the user.
+
+    $ cp playwhe-facebook-post-example.sh playwhe-facebook-post.sh
+    $ chmod u+x playwhe-facebook-post.sh
+
+### Step 2
+
+Open `playwhe-facebook-post.sh` and setup the following environment variables:
+
+- `PLAYWHE_DATABASE_URL` the path to the Play Whe database
+- `PLAYWHE_FACEBOOK_POSTRC_PATH` the path to `.playwhe-facebook-postrc`
+- `FACEBOOK_PAGE_ACCESS_TOKEN`
+
+### Step 3
+
+Add a cron job.
+
+    $ export EDITOR=nano; crontab -e
+
+And then, edit it to have `playwhe-facebook-post.sh` run every 5 minutes.
+
+    */5 * * * * /path/to/playwhe-facebook-post.sh > /dev/null 2>> /path/to/playwhe-facebook-post.log
+
+### Step 4
+
+There is no step 4. The script is now setup to automatically post the latest Play Whe results.
 
 ## TODO
 

@@ -1,7 +1,6 @@
-# Ignore the playwhe-tweet config file
-.playwhe-tweetrc
-
-playwhe-tweet.sh
-
 log/
 tmp/
+.playwhe-facebook-postrc
+.playwhe-tweetrc
+playwhe-facebook-post.sh
+playwhe-tweet.sh
