@@ -1,8 +1,8 @@
 # A utility script for automating the posting of Play Whe results to Twitter.
 
 require 'date'
+require 'sequel'
 require 'twitter'
-require './models'
 
 ENV['PLAYWHE_RESULTS_HASHTAG'] ||= '#playwhe'
 ENV['PLAYWHE_WEBSITE_URL']     ||= 'http://www.playwhesmarter.com/'
@@ -15,7 +15,9 @@ unless ENV['TWITTER_CONSUMER_KEY'] and ENV['TWITTER_CONSUMER_SECRET'] and ENV['T
   abort('missing env vars: please set your Twitter credentials')
 end
 
-DataMapper.setup(:default, "sqlite://#{ENV['PLAYWHE_DATABASE_URL']}")
+Sequel.sqlite(ENV['PLAYWHE_DATABASE_URL'], readonly: true)
+
+require_relative './lib/playwhe/models'
 
 Twitter.configure do |config|
   config.consumer_key = ENV['TWITTER_CONSUMER_KEY']
@@ -29,10 +31,14 @@ if File.exists? ENV['PLAYWHE_TWEETRC_PATH']
 
   File.open(ENV['PLAYWHE_TWEETRC_PATH'], 'r') do |f|
     draw = f.gets.to_i
-    results = Result.all(:draw.gt => draw, :order => [ :draw.asc ], :limit => ENV.fetch('PLAYWHE_TWEETRC_LIMIT', 4))
+    results = PlayWhe::Models::Result \
+      .filter { |r| r.draw > draw }
+      .order(Sequel.asc(:draw))
+      .limit(ENV.fetch('PLAYWHE_TWEETRC_LIMIT', 4))
+      .all
   end
 else
-  results = [ Result.last ]
+  results = [ PlayWhe::Models::Result.last ]
 end
 
 unless results.empty?
@@ -41,7 +47,7 @@ unless results.empty?
   end
 
   results.each do |result|
-    date = result.date.strftime('%b %-d, %Y')
+    date = Date.parse(result.date).strftime('%b %-d, %Y')
 
     time_of_day = {
       'EM' => 'in the Morning (10:30 AM)',
@@ -51,7 +57,7 @@ unless results.empty?
     }[result.period]
 
     number = result.number
-    spirit = Mark.get(number).name
+    spirit = PlayWhe::Models::Mark[number].name
 
     status = "#{number} (#{spirit}) played on #{date} #{time_of_day}... #{ENV['PLAYWHE_RESULTS_HASHTAG']} ~ #{ENV['PLAYWHE_WEBSITE_URL']}"
 
