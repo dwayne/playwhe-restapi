@@ -3,7 +3,7 @@
 
 require 'date'
 require 'koala'
-require './models'
+require 'sequel'
 
 ENV['PLAYWHE_WEBSITE_URL'] ||= 'http://www.playwhesmarter.com/'
 
@@ -15,17 +15,23 @@ unless ENV['FACEBOOK_PAGE_ACCESS_TOKEN']
   abort('missing env vars: please set your Facebook page access token')
 end
 
-DataMapper.setup(:default, "sqlite://#{ENV['PLAYWHE_DATABASE_URL']}")
+Sequel.sqlite(ENV['PLAYWHE_DATABASE_URL'], readonly: true)
+
+require_relative './lib/playwhe/models'
 
 if File.exists? ENV['PLAYWHE_FACEBOOK_POSTRC_PATH']
   results = []
 
   File.open(ENV['PLAYWHE_FACEBOOK_POSTRC_PATH'], 'r') do |f|
     draw = f.gets.to_i
-    results = Result.all(:draw.gt => draw, :order => [ :draw.asc ], :limit => ENV.fetch('PLAYWHE_FACEBOOK_POSTRC_LIMIT', 4))
+    results = PlayWhe::Models::Result \
+      .filter { |r| r.draw > draw }
+      .order(Sequel.asc(:draw))
+      .limit(ENV.fetch('PLAYWHE_FACEBOOK_POSTRC_LIMIT', 4))
+      .all
   end
 else
-  results = [ Result.last ]
+  results = [ PlayWhe::Models::Result.last ]
 end
 
 unless results.empty?
@@ -34,7 +40,7 @@ unless results.empty?
   end
 
   results.each do |result|
-    date = result.date.strftime('%b %-d, %Y')
+    date = Date.parse(result.date).strftime('%b %-d, %Y')
 
     time_of_day = {
       'EM' => 'in the Morning (10:30 AM)',
@@ -44,7 +50,7 @@ unless results.empty?
     }[result.period]
 
     number = result.number
-    spirit = Mark.get(number).name
+    spirit = PlayWhe::Models::Mark[number].name
 
     status = "#{number} (#{spirit}) played on #{date} #{time_of_day}."
 

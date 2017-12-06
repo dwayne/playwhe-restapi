@@ -1,11 +1,7 @@
+require 'dotenv/load'
 require 'rake'
 
-ENV['RACK_ENV'] ||= 'development'
-
-ENV['PLAYWHE_DATABASE_URL'] ||= File.join(File.dirname(__FILE__), 'data/playwhe.db')
-
 namespace :thin do
-
   desc 'Start the app'
   task :start do
     puts 'Starting...'

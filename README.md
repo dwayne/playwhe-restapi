@@ -1,72 +1,94 @@
 # About
 
-A Sinatra web application that provides a RESTful API to a database of PlayWhe results.
+A [Roda](http://roda.jeremyevans.net/) web application that provides a RESTful API for PlayWhe results.
 
 **N.B.** *A database of PlayWhe results is provided (see the `data` directory) for testing purposes.*
 
 ## Prerequisites
 
-1. Ruby 1.9.3
-2. [rbenv](https://github.com/sstephenson/rbenv).
+1. [Ruby 2.4.2](https://ruby-doc.org/core-2.4.2/)
+2. [rbenv](https://github.com/sstephenson/rbenv)
 
 ## Quick Start
 
-    $ git clone git@github.com:dwayne/playwhe-restapi.git
+```sh
+$ git clone git@github.com:dwayne/playwhe-restapi.git
+$ cd playwhe-restapi
+$ bundle install
+$ bundle exec rake thin:start
+```
 
-    $ cd playwhe-restapi
-    $ bundle install
+In another terminal you can use `curl` to query the service at `http://127.0.0.1:5000`.
 
-    $ rake thin:start
+When you're ready to stop the server, execute
 
-In another terminal you can use `curl` to query the service at `http://localhost:5000`.
-
-When you are ready to stop the server, execute
-
-    $ rake thin:stop
+```sh
+$ bundle exec rake thin:stop
+```
 
 ## Usage
 
 Get information on all the marks.
 
-    $ curl http://localhost:5000/marks
+```sh
+$ curl http://127.0.0.1:5000/marks
+```
 
 Maybe, you just want to know the primary spirit associated with a given mark. Then,
 
-    $ curl http://localhost:5000/mark/23
+```sh
+$ curl http://127.0.0.1:5000/marks/23
+```
 
 To get the latest results,
 
-    $ curl http://localhost:5000/results
+```sh
+$ curl http://127.0.0.1:5000/results
+```
 
-You'd notice that only the latest 10 results were returned. If you want to see more, then you can use the `limit` and `offset` query parameters. For example, the following request will get the next 100 results.
+You'd notice that only the latest 10 results are returned. If you want to see more, then you can change the `limit` query parameter. For example, the following request will get 100 results.
 
-    $ curl http://localhost:5000/results?limit=100&offset=10
+```sh
+$ curl http://127.0.0.1:5000/results?limit=100
+```
 
-Get all the results for a given year.
+Get the results for a given year.
 
-    $ curl http://localhost:5000/results?year=2012&limit=365
+```sh
+$ curl http://127.0.0.1:5000/results?year=2012
+```
 
-Get all the results for a given month in a given year.
+Get the results for a given month in a given year.
 
-    $ curl http://localhost:5000/results?year=2012&month=10&limit=31
+```sh
+$ curl http://127.0.0.1:5000/results?year=2012&month=10
+```
 
 Get all the results for a given day in a given month in a given year.
 
-    $ curl http://localhost:5000/results?year=2012&month=10&day=10&limit=3
+```sh
+$ curl http://127.0.0.1:5000/results?year=2012&month=10&day=10
+```
 
 The default sort order is in descending order of the draw number. If you want to sort the results in ascending order of the draw number, then issue the following request.
 
-    $ curl http://localhost:5000/results?order=asc
+```sh
+$ curl http://127.0.0.1:5000/results?order=asc
+```
 
 You can also query the results based on the draw number, the period or the number.
 
-    $ curl http://localhost:5000/results?draw=1
-    $ curl http://localhost:5000/results?period=2
-    $ curl http://localhost:5000/results?number=23
+```sh
+$ curl http://127.0.0.1:5000/results?draw=1
+$ curl http://127.0.0.1:5000/results?period=AM
+$ curl http://127.0.0.1:5000/results?number=23
+```
 
-Finally, feel free to mix and match parameters. The request below returns the 2nd set of 5 results for which the number 13 played after lunch for the year 2008.
+Finally, feel free to mix and match parameters. The request below returns the 2nd page of 5 results for which the number 3 played in the evening for the year 2008.
 
-    $ curl http://localhost:5000/results?limit=5&offset=5&year=2008&period=2&number=13
+```sh
+$ curl http://127.0.0.1:5000/results?page=2&limit=5&number=3&period=pm&year=2008
+```
 
 ## Configuring `playwhe-tweet.sh`
 
@@ -135,12 +157,6 @@ And then, edit it to have `playwhe-facebook-post.sh` run every 5 minutes.
 
 There is no step 4. The script is now setup to automatically post the latest Play Whe results.
 
-## TODO
-
-- App monitoring on WebFaction (check out [god](http://godrb.com/))
-- Authentication
-- Throttle requests
-
 ## Credits
 
-Developed by [Dwayne R. Crooks](http://dwaynecrooks.com/).
+Developed by [Dwayne Crooks](http://www.dwaynecrooks.com/).

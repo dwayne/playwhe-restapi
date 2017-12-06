@@ -1,20 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
-gem 'thin'
-
+gem 'dotenv'
+gem 'dry-validation'
+gem 'koala'
 gem 'rack-contrib'
-
-gem 'json'
-
-gem 'data_mapper'
-gem 'dm-sqlite-adapter'
-gem 'dm-ar-finders'
-
+gem 'roda'
+gem 'sequel'
+gem 'sqlite3'
+gem 'thin'
 gem 'twitter'
 
-gem 'koala'
-
 group :development do
-  gem 'net-ssh' # needed for deployment, see rake:deploy
+  gem 'net-ssh'
+  gem 'pry-byebug'
+  gem 'rake'
 end
