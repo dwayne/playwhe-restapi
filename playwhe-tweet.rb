@@ -11,7 +11,7 @@ unless ENV['PLAYWHE_DATABASE_URL'] and ENV['PLAYWHE_TWEETRC_PATH']
   abort('missing env vars: please set PLAYWHE_DATABASE_URL and PLAYWHE_TWEETRC_PATH')
 end
 
-unless ENV['TWITTER_CONSUMER_KEY'] and ENV['TWITTER_CONSUMER_SECRET'] and ENV['TWITTER_OAUTH_TOKEN'] and ENV['TWITTER_OAUTH_SECRET']
+unless ENV['TWITTER_CONSUMER_KEY'] and ENV['TWITTER_CONSUMER_SECRET'] and ENV['TWITTER_ACCESS_TOKEN'] and ENV['TWITTER_ACCESS_SECRET']
   abort('missing env vars: please set your Twitter credentials')
 end
 
@@ -19,11 +19,11 @@ Sequel.sqlite(ENV['PLAYWHE_DATABASE_URL'], readonly: true)
 
 require_relative './lib/playwhe/models'
 
-Twitter.configure do |config|
+client = Twitter::REST::Client.new do |config|
   config.consumer_key = ENV['TWITTER_CONSUMER_KEY']
   config.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
-  config.oauth_token = ENV['TWITTER_OAUTH_TOKEN']
-  config.oauth_token_secret = ENV['TWITTER_OAUTH_SECRET']
+  config.access_token = ENV['TWITTER_ACCESS_TOKEN']
+  config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
 end
 
 if File.exists? ENV['PLAYWHE_TWEETRC_PATH']
@@ -62,7 +62,7 @@ unless results.empty?
     status = "#{number} (#{spirit}) played on #{date} #{time_of_day}... #{ENV['PLAYWHE_RESULTS_HASHTAG']} ~ #{ENV['PLAYWHE_WEBSITE_URL']}"
 
     begin
-      Twitter.update(status)
+      client.update(status)
     rescue
       puts status
     end

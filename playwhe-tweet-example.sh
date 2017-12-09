@@ -13,8 +13,8 @@ export PLAYWHE_TWEETRC_PATH=
 # Twitter credentials, see https://dev.twitter.com/apps/3841469/show
 export TWITTER_CONSUMER_KEY=
 export TWITTER_CONSUMER_SECRET=
-export TWITTER_OAUTH_TOKEN=
-export TWITTER_OAUTH_SECRET=
+export TWITTER_ACCESS_TOKEN=
+export TWITTER_ACCESS_SECRET=
 
 cd /path/to/directory/containing/playwhe-tweet.rb
 bundle exec ruby playwhe-tweet.rb
