@@ -71,8 +71,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.1)
     rack (2.0.3)
-    rack-contrib (2.0.0)
-      rack (~> 2.0)
+    rack-cors (1.0.2)
     rake (12.3.0)
     roda (3.2.0)
       rack
@@ -108,7 +107,7 @@ DEPENDENCIES
   koala
   net-ssh
   pry-byebug
-  rack-contrib
+  rack-cors
   rake
   roda
   sequel
