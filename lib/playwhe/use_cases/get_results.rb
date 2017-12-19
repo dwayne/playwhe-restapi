@@ -12,12 +12,12 @@ module PlayWhe
         optional(:draw).maybe(:int?, gteq?: 1)
         optional(:period).maybe(:str?, format?: /\A(?:EM|AM|AN|PM)\Z/i)
         optional(:number).maybe(:int?, gteq?: 1, lteq?: 36)
-        optional(:limit).maybe(:int?, gteq?: 1, lteq?: 100)
+        optional(:limit).maybe(:int?, gteq?: 1, lteq?: 50)
         optional(:page).maybe(:int?, gteq?: 1)
         optional(:order).maybe(:str?, format?: /\A(?:ASC|DESC)\Z/i)
       end
 
-      DEFAULT_LIMIT = 10
+      DEFAULT_LIMIT = 12
       DEFAULT_PAGE = 1
       DEFAULT_ORDER = 'DESC'
 
@@ -45,14 +45,16 @@ module PlayWhe
           ds = ds.filter(period: data[:period]) if data[:period]
           ds = ds.filter(number: data[:number]) if data[:number]
 
+
           page = data[:page]
-          total_pages = (ds.count.to_f / data[:limit]).ceil
+          total_results = ds.count
+          total_pages = (total_results.to_f / data[:limit]).ceil
 
           ds = ds.reverse if data[:order] == 'ASC'
           offset = (page - 1) * data[:limit]
           ds = ds.limit(data[:limit]).offset(offset)
 
-          generate_response(ds, data, page, total_pages)
+          generate_response(ds, data, page, total_pages, total_results)
         else
           errors = result.errors(full: true).inject([]) { |errors, e| errors.concat e[1] }
           raise ValidationError.new(errors)
@@ -70,10 +72,13 @@ module PlayWhe
 
       private
 
-      def generate_response(ds, data, page, total_pages)
+      def generate_response(ds, data, page, total_pages, total_results)
         response = {
           self: "/results#{as_query(data)}",
-          results: ds.map(&:values)
+          results: ds.map(&:values),
+          page: page,
+          total_pages: total_pages,
+          total_results: total_results
         }
 
         has_prev = page > 1 && page <= total_pages
