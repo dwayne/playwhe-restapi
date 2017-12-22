@@ -30,20 +30,20 @@ if File.exists? ENV['PLAYWHE_TWEETRC_PATH']
   results = []
 
   File.open(ENV['PLAYWHE_TWEETRC_PATH'], 'r') do |f|
-    draw = f.gets.to_i
-    results = PlayWhe::Models::Result \
-      .filter { |r| r.draw > draw }
-      .order(Sequel.asc(:draw))
+    date, period = f.gets.chomp.split(',')
+    results = PlayWhe::Models::Result
+      .after(date, period)
       .limit(ENV.fetch('PLAYWHE_TWEETRC_LIMIT', 4))
       .all
   end
 else
-  results = [ PlayWhe::Models::Result.last ]
+  results = [ PlayWhe::Models::Result.first ]
 end
 
 unless results.empty?
   File.open(ENV['PLAYWHE_TWEETRC_PATH'], 'w') do |f|
-    f.puts results.last.draw.to_s
+    result = results.last
+    f.puts "#{result.date},#{result.period}"
   end
 
   results.each do |result|
@@ -54,7 +54,7 @@ unless results.empty?
       'AM' => 'at Midday (1:00 PM)',
       'AN' => 'in the Afternoon (4:00 PM)',
       'PM' => 'in the Evening (6:30 PM)'
-    }[result.period]
+    }.fetch(result.period)
 
     number = result.number
     spirit = PlayWhe::Models::Mark[number].name

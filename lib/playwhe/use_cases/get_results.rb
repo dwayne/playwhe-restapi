@@ -48,7 +48,7 @@ module PlayWhe
           page = data[:page]
           total_pages = (ds.count.to_f / data[:limit]).ceil
 
-          ds = ds.order(data[:order] == 'ASC' ? Sequel.asc(:draw) : Sequel.desc(:draw))
+          ds = ds.reverse if data[:order] == 'ASC'
           offset = (page - 1) * data[:limit]
           ds = ds.limit(data[:limit]).offset(offset)
 
