@@ -12,6 +12,7 @@ gem 'twitter'
 
 group :development do
   gem 'net-ssh'
+  gem 'pry'
   gem 'pry-byebug'
   gem 'rake'
 end
