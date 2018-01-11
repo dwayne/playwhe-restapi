@@ -1,3 +1,5 @@
+require 'set'
+
 module PlayWhe
   module UseCases
     class GetSuggestions
@@ -15,18 +17,22 @@ module PlayWhe
         take = 3
 
         unlikely_marks = {
-          'EM': picks(ds, 'EM', limit, take),
-          'AM': picks(ds, 'AM', limit, take),
-          'AN': picks(ds, 'AN', limit, take),
-          'PM': picks(ds, 'PM', limit, take)
+          'EM' => picks(ds, 'EM', limit, take),
+          'AM' => picks(ds, 'AM', limit, take),
+          'AN' => picks(ds, 'AN', limit, take),
+          'PM' => picks(ds, 'PM', limit, take)
         }
 
+        all_unlikely_marks = combine(unlikely_marks)
+
         likely_marks = {
-          'EM': picks(ds_reversed, 'EM', limit, take),
-          'AM': picks(ds_reversed, 'AM', limit, take),
-          'AN': picks(ds_reversed, 'AN', limit, take),
-          'PM': picks(ds_reversed, 'PM', limit, take)
+          'EM' => picks(ds_reversed, 'EM', limit, take),
+          'AM' => picks(ds_reversed, 'AM', limit, take),
+          'AN' => picks(ds_reversed, 'AN', limit, take),
+          'PM' => picks(ds_reversed, 'PM', limit, take)
         }
+
+        all_likely_marks = combine(likely_marks)
 
         ds = line_data.from_self.order(:prob)
         ds_reversed = ds.reverse
@@ -34,29 +40,47 @@ module PlayWhe
         take = 2
 
         unlikely_lines = {
-          'EM': picks(ds, 'EM', limit, take),
-          'AM': picks(ds, 'AM', limit, take),
-          'AN': picks(ds, 'AN', limit, take),
-          'PM': picks(ds, 'PM', limit, take)
+          'EM' => picks(ds, 'EM', limit, take),
+          'AM' => picks(ds, 'AM', limit, take),
+          'AN' => picks(ds, 'AN', limit, take),
+          'PM' => picks(ds, 'PM', limit, take)
         }
 
+        all_unlikely_lines = combine(unlikely_lines)
+
         likely_lines = {
-          'EM': picks(ds_reversed, 'EM', limit, take),
-          'AM': picks(ds_reversed, 'AM', limit, take),
-          'AN': picks(ds_reversed, 'AN', limit, take),
-          'PM': picks(ds_reversed, 'PM', limit, take)
+          'EM' => picks(ds_reversed, 'EM', limit, take),
+          'AM' => picks(ds_reversed, 'AM', limit, take),
+          'AN' => picks(ds_reversed, 'AN', limit, take),
+          'PM' => picks(ds_reversed, 'PM', limit, take)
         }
+
+        all_likely_lines = combine(likely_lines)
 
         {
           self: '/suggestions',
           unlikely_marks: unlikely_marks,
+          all_unlikely_marks: all_unlikely_marks,
           likely_marks: likely_marks,
+          all_likely_marks: all_likely_marks,
           unlikely_lines: unlikely_lines,
-          likely_lines: likely_lines
+          all_unlikely_lines: all_unlikely_lines,
+          likely_lines: likely_lines,
+          all_likely_lines: all_likely_lines
         }
       end
 
       private
+
+      PERIODS = %w(EM AM AN PM)
+
+      def combine(data_by_period)
+        data = SortedSet.new
+
+        PERIODS.each { |period| data.merge data_by_period[period] }
+
+        data.to_a
+      end
 
       def default_prng
         Random.new(now.year * now.month * now.day)
