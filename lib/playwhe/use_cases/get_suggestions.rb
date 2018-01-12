@@ -16,21 +16,15 @@ module PlayWhe
         limit = 6
         take = 3
 
-        unlikely_marks = {
-          'EM' => picks(ds, 'EM', limit, take),
-          'AM' => picks(ds, 'AM', limit, take),
-          'AN' => picks(ds, 'AN', limit, take),
-          'PM' => picks(ds, 'PM', limit, take)
-        }
+        unlikely_marks = PERIODS.map do |period|
+          { period: period, picks: picks(ds, period, limit, take) }
+        end
 
         all_unlikely_marks = combine(unlikely_marks)
 
-        likely_marks = {
-          'EM' => picks(ds_reversed, 'EM', limit, take),
-          'AM' => picks(ds_reversed, 'AM', limit, take),
-          'AN' => picks(ds_reversed, 'AN', limit, take),
-          'PM' => picks(ds_reversed, 'PM', limit, take)
-        }
+        likely_marks = PERIODS.map do |period|
+          { period: period, picks: picks(ds_reversed, period, limit, take) }
+        end
 
         all_likely_marks = combine(likely_marks)
 
@@ -39,21 +33,15 @@ module PlayWhe
         limit = 4
         take = 2
 
-        unlikely_lines = {
-          'EM' => picks(ds, 'EM', limit, take),
-          'AM' => picks(ds, 'AM', limit, take),
-          'AN' => picks(ds, 'AN', limit, take),
-          'PM' => picks(ds, 'PM', limit, take)
-        }
+        unlikely_lines = PERIODS.map do |period|
+          { period: period, picks: picks(ds, period, limit, take) }
+        end
 
         all_unlikely_lines = combine(unlikely_lines)
 
-        likely_lines = {
-          'EM' => picks(ds_reversed, 'EM', limit, take),
-          'AM' => picks(ds_reversed, 'AM', limit, take),
-          'AN' => picks(ds_reversed, 'AN', limit, take),
-          'PM' => picks(ds_reversed, 'PM', limit, take)
-        }
+        likely_lines = PERIODS.map do |period|
+          { period: period, picks: picks(ds_reversed, period, limit, take) }
+        end
 
         all_likely_lines = combine(likely_lines)
 
@@ -77,7 +65,7 @@ module PlayWhe
       def combine(data_by_period)
         data = SortedSet.new
 
-        PERIODS.each { |period| data.merge data_by_period[period] }
+        data_by_period.each { |r| data.merge r[:picks] }
 
         data.to_a
       end
