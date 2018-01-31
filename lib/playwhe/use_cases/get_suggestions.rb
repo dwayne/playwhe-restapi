@@ -11,6 +11,8 @@ module PlayWhe
       end
 
       def call
+        return { self: '/suggestions', is_sunday: true } if now.sunday?
+
         ds = mark_data.from_self.order(:prob)
         ds_reversed = ds.reverse
         limit = 6
@@ -47,6 +49,7 @@ module PlayWhe
 
         {
           self: '/suggestions',
+          is_sunday: false,
           unlikely_marks: unlikely_marks,
           all_unlikely_marks: all_unlikely_marks,
           likely_marks: likely_marks,
